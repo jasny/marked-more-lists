@@ -1,7 +1,10 @@
-# TODO:
+### TODO:
 
-- [ ] Write extension in `/src/index.js`
-- [ ] Write tests in `/spec/index.test.js`
+- [x] Replace information in `/README.md`
+- [x] Replace name in `/rollup.config.js`
+- [x] Replace information in `/package.json`
+- [x] Write extension in `/src/index.js`
+- [x] Write tests in `/spec/index.test.js`
 - [ ] Uncomment release in `/.github/workflows/main.yml`
 
 # marked-more-lists
@@ -16,7 +19,7 @@ This enables more flexible list formatting in Markdown, enhancing the output to 
 
 ```js
 import {marked} from "marked";
-import {markedMoreLists} from "marked-more-lists";
+import markedMoreLists from "marked-more-lists";
 
 // or UMD script
 // <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
@@ -29,10 +32,11 @@ marked.use(markedMoreLists(options));
 const exampleMarkdown = `
 1. item 1
 2. item 2
-	a. item 2a
-		I. sub item I
-		II. sub item II
-	x. item 2x
+    a. item 2a
+	    1. sub item I
+	    2. sub item II
+    x. item 2x
+7. item 7
 `;
 
 marked.parse(exampleMarkdown);
@@ -48,6 +52,7 @@ marked.parse(exampleMarkdown);
 //       <li value="24">item 2x</li>
 //     </ol>
 //   </li>
+//   <li value="7">item 7</li>
 // </ol>
 ```
 
