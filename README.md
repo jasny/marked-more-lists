@@ -1,41 +1,56 @@
-<!-- The character `|` around a string denotes a place in this markdown file that needs to be changed for each extension. -->
-<!-- You may also delete any comments you don't need anymore. -->
-
 # TODO:
 
-- [ ] Replace information in `/README.md`
-- [ ] Replace name in `/rollup.config.js`
-- [ ] Replace information in `/package.json`
 - [ ] Write extension in `/src/index.js`
 - [ ] Write tests in `/spec/index.test.js`
 - [ ] Uncomment release in `/.github/workflows/main.yml`
 
-<!-- Delete this line and above -->
+# marked-more-lists
 
-# marked-|this-extension|
-<!-- Description -->
+This extension for the [marked](https://marked.js.org/) library adds support for rendering ordered lists with various
+`type` attributes. It allows Markdown lists that start with `a.`, `A.`, `i.`, `I.`, and other patterns to be rendered
+as `<ol>` elements with corresponding `type` values (e.g., `<ol type="a">`, `<ol type="I">`).
+
+This enables more flexible list formatting in Markdown, enhancing the output to match the intended ordering style.
 
 # Usage
-<!-- Show most examples of how to use this extension -->
 
 ```js
 import {marked} from "marked";
-import |thisExtension| from "marked-|this-extension|";
+import {markedMoreLists} from "marked-more-lists";
 
 // or UMD script
 // <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
-// <script src="https://cdn.jsdelivr.net/npm/marked-|this-extension|/lib/index.umd.js"></script>
+// <script src="https://cdn.jsdelivr.net/npm/marked-more-lists/lib/index.umd.js"></script>
 
-const options = {
-	// |default options|
-};
+const options = {};
 
-marked.use(|thisExtension|(options));
+marked.use(markedMoreLists(options));
 
-marked.parse("|example markdown|");
-// <p>|example html|</p>
+const exampleMarkdown = `
+1. item 1
+2. item 2
+	a. item 2a
+		I. sub item I
+		II. sub item II
+	x. item 2x
+`;
+
+marked.parse(exampleMarkdown);
+// <ol>
+//   <li>item 1</li>
+//   <li>item 2
+//     <ol type="a">
+//       <li>item 2a</li>
+//       <ol type="I">
+//         <li>sub item I</li>
+//         <li>sub item II</li>
+//       </ol>
+//       <li value="24">item 2x</li>
+//     </ol>
+//   </li>
+// </ol>
 ```
 
 ## `options`
 
-<!-- If there are no options you can delete this section -->
+_There are no options for this extension._

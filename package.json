@@ -1,7 +1,7 @@
 {
-  "name": "marked-extension-template",
+  "name": "marked-more-lists",
   "version": "0.0.0",
-  "description": "marked extension template",
+  "description": "An extension for marked to support additional list styles",
   "main": "./lib/index.cjs",
   "module": "./src/index.js",
   "browser": "./lib/index.umd.js",
@@ -29,14 +29,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markedjs/marked-extension-template.git"
+    "url": "git+https://github.com/jasny/marked-more-lists.git"
   },
-  "author": "Tony Brix <Tony@Brix.ninja> (https://Tony.Brix.ninja)",
+  "author": "Arnold Daniels <arnold@jasny.net> (https://jasny.net/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/markedjs/marked-extension-template/issues"
+    "url": "https://github.com/jasny/marked-more-lists/issues"
   },
-  "homepage": "https://github.com/markedjs/marked-extension-template#readme",
+  "homepage": "https://github.com/jasny/marked-more-lists#readme",
   "peerDependencies": {
     "marked": ">=14 <15"
   },
