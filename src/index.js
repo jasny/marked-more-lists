@@ -37,8 +37,6 @@ const rule = `^( {0,3}${bulletPattern}([ \\t][^\\n]+?)?(?:\\n|$)`;
 
 export default function() {
   return {
-    name: 'marked-more-lists',
-    level: 'block',
     tokenizer: {
       list(src) {
         let cap = new RegExp(rule).exec(src);
