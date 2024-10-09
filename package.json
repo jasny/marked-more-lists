@@ -1,6 +1,6 @@
 {
   "name": "marked-more-lists",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An extension for marked to support additional list styles",
   "main": "./lib/index.cjs",
   "module": "./src/index.js",
