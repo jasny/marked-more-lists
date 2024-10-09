@@ -25,8 +25,8 @@ const exampleMarkdown = `
 1. item 1
 2. item 2
     a. item 2a
-	    I.  sub item I
-	    II. sub item II
+        I.  sub item I
+        II. sub item II
     e. item 2e
 7. item 7
 `;
