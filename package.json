@@ -5,6 +5,7 @@
   "main": "./lib/index.cjs",
   "module": "./src/index.js",
   "browser": "./lib/index.umd.js",
+  "types": "./src/index.d.ts",
   "type": "module",
   "keywords": [
     "marked",
