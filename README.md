@@ -13,6 +13,9 @@ This extension for the [marked](https://marked.js.org/) library adds support for
 `type` attributes. It allows Markdown lists that start with `a.`, `A.`, `i.`, `I.`, and other patterns to be rendered
 as `<ol>` elements with corresponding `type` values (e.g., `<ol type="a">`, `<ol type="I">`).
 
+It also supports lists that start with a custom value or that skip values, by using the `value` attribute on the list
+item (e.g., `<ol type="I"><li value=3>item III<li></ol>`).
+
 This enables more flexible list formatting in Markdown, enhancing the output to match the intended ordering style.
 
 # Usage
@@ -33,9 +36,9 @@ const exampleMarkdown = `
 1. item 1
 2. item 2
     a. item 2a
-	    1. sub item I
-	    2. sub item II
-    x. item 2x
+	    I.  sub item I
+	    II. sub item II
+    e. item 2e
 7. item 7
 `;
 
@@ -49,7 +52,7 @@ marked.parse(exampleMarkdown);
 //         <li>sub item I</li>
 //         <li>sub item II</li>
 //       </ol>
-//       <li value="24">item 2x</li>
+//       <li value="5">item 2e</li>
 //     </ol>
 //   </li>
 //   <li value="7">item 7</li>

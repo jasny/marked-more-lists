@@ -13,6 +13,7 @@ function romanToInt(roman) {
     M: 1000,
   };
 
+  roman = roman.toUpperCase();
   let total = 0;
 
   for (let i = 0; i < roman.length; i++) {
@@ -29,13 +30,18 @@ function romanToInt(roman) {
   return total;
 }
 
-export default function(options = {}) {
+const romanUpper = '(?:C|XC|L?X{0,3}(?:IX|IV|V?I{0,3}))';
+const romanLower = '(?:c|xc|l?x{0,3}(?:ix|iv|v?i{0,3}))';
+const bulletPattern = `(?:[*+-]|(?:\\d{1,9}|[a-zA-Z]|${romanUpper}|${romanLower})[.)]))`;
+const rule = `^( {0,3}${bulletPattern}([ \\t][^\\n]+?)?(?:\\n|$)`;
+
+export default function() {
   return {
+    name: 'marked-more-lists',
+    level: 'block',
     tokenizer: {
       list(src) {
-        const romanNumeral = '(?:C|XC|L?X{0,3}(?:IX|IV|V?I{0,3}))';
-        const pattern = `^( {0,3}(?:[*+-]|(?:\\d{1,9}|[a-zA-Z]|${romanNumeral})[.)]))([ \\t][^\\n]+?)?(?:\\n|$)`;
-        let cap = new RegExp(pattern).exec(src);
+        let cap = new RegExp(rule).exec(src);
 
         if (cap) {
           let bullet = cap[1].trim();
@@ -44,9 +50,12 @@ export default function(options = {}) {
           let type = '';
           let expectedValue = 1;
 
-          if (isordered && bullet.match(new RegExp(`^${romanNumeral}[.)]$`))) {
+          if (isordered && bullet.match(new RegExp(`^${romanUpper}[.)]$`))) {
             type = 'I';
-            bull = `${romanNumeral}\\${bullet.slice(-1)}`;
+            bull = `${romanUpper}\\${bullet.slice(-1)}`;
+          } else if (isordered && bullet.match(new RegExp(`^${romanLower}[.)]$`))) {
+            type = 'i';
+            bull = `${romanLower}\\${bullet.slice(-1)}`;
           } else if (isordered && bullet.match(/^[a-z][.)]$/)) {
             type = 'a';
             bull = `[a-z]\\${bullet.slice(-1)}`;
@@ -113,7 +122,7 @@ export default function(options = {}) {
             }
 
             if (!endEarly) {
-              const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:[*+-]|(?:\\d{1,9}|[a-zA-Z]|${romanNumeral})[.)])((?:[ \t][^\\n]*)?(?:\\n|$))`);
+              const nextBulletRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:[*+-]|(?:\\d{1,9}|[a-zA-Z]|${romanUpper}|${romanLower})[.)])((?:[ \t][^\\n]*)?(?:\\n|$))`);
               const hrRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`);
               const fencesBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}(?:\`\`\`|~~~)`);
               const headingBeginRegex = new RegExp(`^ {0,${Math.min(3, indent - 1)}}#`);
@@ -220,7 +229,7 @@ export default function(options = {}) {
               value = parseInt(bullet.slice(0, -1), 10);
             } else if (type === 'a' || type === 'A') {
               value = letterToInt(bullet.slice(0, -1));
-            } else if (type === 'I') {
+            } else if (type === 'i' || type === 'I') {
               value = romanToInt(bullet.slice(0, -1));
             }
 
