@@ -71,6 +71,7 @@ export default function() {
             type: 'list',
             raw: '',
             ordered: isordered,
+            start: isordered ? null : undefined, // Initialize for ordered lists
             listType: type,
             loose: false,
             items: [],
@@ -243,6 +244,11 @@ export default function() {
               tokens: [],
             });
 
+            // Set list start from first item's value (only for ordered lists)
+            if (list.start === null && isordered && value !== null) {
+              list.start = value;
+            }
+
             expectedValue = value + 1;
 
             list.raw += raw;
@@ -280,6 +286,7 @@ export default function() {
       list(token) {
         const ordered = token.ordered;
         const listType = token.listType;
+        const start = token.start;
 
         let body = '';
         for (let j = 0; j < token.items.length; j++) {
@@ -288,8 +295,21 @@ export default function() {
         }
 
         const type = ordered ? 'ol' : 'ul';
-        const typeAttr = (ordered && listType !== '1') ? (' type="' + listType + '"') : '';
-        return '<' + type + typeAttr + '>\n' + body + '</' + type + '>\n';
+
+        // Build attributes
+        let attrs = '';
+
+        // Add start attribute for non-default values (not 1 or undefined)
+        if (ordered && start !== undefined && start !== null && start !== 1) {
+          attrs += ' start="' + start + '"';
+        }
+
+        // Add type attribute for non-numeric lists
+        if (ordered && listType !== '1') {
+          attrs += ' type="' + listType + '"';
+        }
+
+        return '<' + type + attrs + '>\n' + body + '</' + type + '>\n';
       },
       listitem(item) {
         let itemBody = '';
