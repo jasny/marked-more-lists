@@ -46,7 +46,7 @@ look at the following list:
     </ol>
   </li>
   <li value="7">item 7
-      <ol type="A">
+      <ol start="2" type="A">
         <li value="2">item B</li>
         <li value="4">item D</li>
       </ol>
@@ -73,5 +73,40 @@ look at the following list:
   test('without this extension', () => {
     const result = marked(exampleMarkdown);
     expect(cleanHtml(result)).not.toBe(cleanHtml(expectedResult));
+  });
+
+  describe('start attribute tests', () => {
+    beforeEach(() => {
+      marked.setOptions(marked.getDefaults());
+      marked.use(markedMoreLists());
+    });
+
+    test('numeric list starting at 1 has no start attribute', () => {
+      const result = marked.parse('1. First\n2. Second');
+      expect(result).not.toContain('start=');
+    });
+
+    test('numeric list starting at 5 has start="5"', () => {
+      const result = marked.parse('5. Fifth\n6. Sixth');
+      expect(result).toContain('start="5"');
+    });
+
+    test('alphabetic list starting at e has start="5"', () => {
+      const result = marked.parse('e. Fifth\nf. Sixth');
+      expect(result).toContain('start="5"');
+      expect(result).toContain('type="a"');
+    });
+
+    test('Roman numeral list starting at v has start="5"', () => {
+      const result = marked.parse('v. Fifth\nvi. Sixth');
+      expect(result).toContain('start="5"');
+      expect(result).toContain('type="i"');
+    });
+
+    test('no start="undefined" in output', () => {
+      const result = marked.parse('1. First\na. Alpha\ni. Roman');
+      expect(result).not.toContain('start="undefined"');
+      expect(result).not.toContain('start="null"');
+    });
   });
 });

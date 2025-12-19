@@ -1,6 +1,6 @@
 {
   "name": "marked-more-lists",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An extension for marked to support additional list styles",
   "main": "./lib/index.cjs",
   "module": "./src/index.js",
@@ -26,7 +26,13 @@
     "format": "eslint --fix",
     "lint": "eslint",
     "test": "jest --verbose",
-    "test:cover": "jest --coverage"
+    "test:cover": "jest --coverage",
+    "test:v14": "npm install marked@14 --no-save && npm test",
+    "test:v15": "npm install marked@15 --no-save && npm test",
+    "test:v16": "npm install marked@16 --no-save && npm test",
+    "test:v17": "npm install marked@17 --no-save && npm test",
+    "test:all-versions": "npm run test:v14 && npm run test:v15 && npm run test:v16 && npm run test:v17",
+    "test:current": "npm test"
   },
   "repository": {
     "type": "git",
@@ -39,7 +45,7 @@
   },
   "homepage": "https://github.com/jasny/marked-more-lists#readme",
   "peerDependencies": {
-    "marked": ">=14 <15"
+    "marked": ">=14 <18"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
