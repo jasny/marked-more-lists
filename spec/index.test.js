@@ -109,5 +109,4 @@ look at the following list:
       expect(result).not.toContain('start="null"');
     });
   });
-
 });
