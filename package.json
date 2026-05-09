@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/jasny/marked-more-lists#readme",
   "peerDependencies": {
-    "marked": ">=14 <15"
+    "marked": ">=14 <19"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

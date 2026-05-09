@@ -71,6 +71,7 @@ export default function() {
             type: 'list',
             raw: '',
             ordered: isordered,
+            start: isordered ? null : undefined,
             listType: type,
             loose: false,
             items: [],
@@ -243,6 +244,10 @@ export default function() {
               tokens: [],
             });
 
+            if (list.start === null && isordered && value !== null) {
+              list.start = value;
+            }
+
             expectedValue = value + 1;
 
             list.raw += raw;
@@ -280,6 +285,7 @@ export default function() {
       list(token) {
         const ordered = token.ordered;
         const listType = token.listType;
+        const start = token.start;
 
         let body = '';
         for (let j = 0; j < token.items.length; j++) {
@@ -288,8 +294,16 @@ export default function() {
         }
 
         const type = ordered ? 'ol' : 'ul';
-        const typeAttr = (ordered && listType !== '1') ? (' type="' + listType + '"') : '';
-        return '<' + type + typeAttr + '>\n' + body + '</' + type + '>\n';
+
+        let attrs = '';
+        if (ordered && start !== undefined && start !== null && start !== 1) {
+          attrs += ' start="' + start + '"';
+        }
+        if (ordered && listType !== '1') {
+          attrs += ' type="' + listType + '"';
+        }
+
+        return '<' + type + attrs + '>\n' + body + '</' + type + '>\n';
       },
       listitem(item) {
         let itemBody = '';
